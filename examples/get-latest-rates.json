@@ -1,0 +1,25 @@
+{
+  "title": "Get Latest Exchange Rates",
+  "description": "Example request and response for the /latest endpoint to retrieve current exchange rates with USD as base currency.",
+  "request": {
+    "method": "GET",
+    "url": "https://api.freecurrencyapi.com/v1/latest?apikey=YOUR_API_KEY&base_currency=USD&currencies=EUR,GBP,JPY,CAD",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "data": {
+        "CAD": 1.35241,
+        "EUR": 0.92145,
+        "GBP": 0.78432,
+        "JPY": 149.83200
+      }
+    }
+  }
+}

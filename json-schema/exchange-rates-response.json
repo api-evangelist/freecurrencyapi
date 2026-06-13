@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freecurrencyapi.com/schemas/exchange-rates-response.json",
+  "title": "ExchangeRatesResponse",
+  "description": "Response from the Free Currency API latest exchange rates endpoint.",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "description": "Map of currency codes to their exchange rate values relative to the base currency",
+      "additionalProperties": {
+        "type": "number",
+        "description": "Exchange rate value"
+      }
+    }
+  },
+  "examples": [
+    {
+      "data": {
+        "AED": 3.67306,
+        "AFN": 91.80254,
+        "ALL": 108.22904,
+        "AMD": 480.41659,
+        "EUR": 0.92145,
+        "USD": 1.0,
+        "GBP": 0.78432
+      }
+    }
+  ]
+}

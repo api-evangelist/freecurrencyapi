@@ -1,0 +1,26 @@
+{
+  "title": "Get Historical Exchange Rates",
+  "description": "Example request and response for the /historical endpoint to retrieve exchange rates for a specific past date.",
+  "request": {
+    "method": "GET",
+    "url": "https://api.freecurrencyapi.com/v1/historical?apikey=YOUR_API_KEY&date=2022-01-01&base_currency=USD&currencies=EUR,GBP,JPY",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "data": {
+        "2022-01-01": {
+          "EUR": 0.88732,
+          "GBP": 0.73891,
+          "JPY": 115.10400
+        }
+      }
+    }
+  }
+}

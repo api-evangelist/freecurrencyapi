@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freecurrencyapi.com/schemas/status-response.json",
+  "title": "StatusResponse",
+  "description": "Response from the Free Currency API status endpoint containing quota information.",
+  "type": "object",
+  "properties": {
+    "quotas": {
+      "type": "object",
+      "description": "Quota usage information by time period",
+      "properties": {
+        "month": {
+          "$ref": "#/$defs/QuotaPeriod"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "QuotaPeriod": {
+      "type": "object",
+      "description": "Quota usage details for a time period",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "description": "Total requests allowed in this period",
+          "example": 300
+        },
+        "used": {
+          "type": "integer",
+          "description": "Requests used in this period",
+          "example": 71
+        },
+        "remaining": {
+          "type": "integer",
+          "description": "Requests remaining in this period",
+          "example": 229
+        }
+      }
+    }
+  }
+}

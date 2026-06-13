@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freecurrencyapi.com/schemas/historical-rates-response.json",
+  "title": "HistoricalRatesResponse",
+  "description": "Response from the Free Currency API historical exchange rates endpoint.",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "description": "Map of date strings (YYYY-MM-DD) to objects containing currency exchange rate data for that date",
+      "additionalProperties": {
+        "type": "object",
+        "description": "Exchange rates for a specific date keyed by currency code",
+        "additionalProperties": {
+          "type": "number",
+          "description": "Exchange rate value"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "data": {
+        "2022-01-01": {
+          "AED": 3.67306,
+          "AFN": 91.80254,
+          "ALL": 108.22904,
+          "AMD": 480.41659,
+          "EUR": 0.88732,
+          "USD": 1.0,
+          "GBP": 0.73891
+        }
+      }
+    }
+  ]
+}

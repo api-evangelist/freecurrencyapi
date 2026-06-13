@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freecurrencyapi.com/schemas/currencies-response.json",
+  "title": "CurrenciesResponse",
+  "description": "Response from the Free Currency API currencies endpoint listing all available currencies.",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "description": "Map of currency codes to currency information objects",
+      "additionalProperties": {
+        "$ref": "#/$defs/CurrencyInfo"
+      }
+    }
+  },
+  "$defs": {
+    "CurrencyInfo": {
+      "type": "object",
+      "description": "Detailed information about a single currency",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Standard ISO 4217 currency code",
+          "example": "AED"
+        },
+        "name": {
+          "type": "string",
+          "description": "Full English name of the currency",
+          "example": "United Arab Emirates Dirham"
+        },
+        "symbol_native": {
+          "type": "string",
+          "description": "Native language representation of the currency symbol",
+          "example": "د.إ"
+        },
+        "decimal_digits": {
+          "type": "integer",
+          "description": "Number of decimal digits conventionally used with this currency",
+          "example": 2
+        },
+        "rounding": {
+          "type": "number",
+          "description": "Rounding configuration for the currency",
+          "example": 0
+        },
+        "code": {
+          "type": "string",
+          "description": "ISO 4217 currency code identifier",
+          "example": "AED"
+        },
+        "name_plural": {
+          "type": "string",
+          "description": "Plural form of the currency name",
+          "example": "UAE dirhams"
+        }
+      }
+    }
+  }
+}

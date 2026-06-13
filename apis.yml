@@ -38,7 +38,7 @@ apis:
       - type: Documentation
         url: https://freecurrencyapi.com/docs
       - type: OpenAPI
-        url: https://freecurrencyapi.com/docs
+        url: https://raw.githubusercontent.com/api-evangelist/freecurrencyapi/refs/heads/main/openapi/openapi.yml
     contact:
       - FN: Everapi Support
         email: support@everapi.com

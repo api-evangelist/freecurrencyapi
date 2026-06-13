@@ -1,0 +1,26 @@
+{
+  "title": "Get API Status",
+  "description": "Example request and response for the /status endpoint to check API quota usage.",
+  "request": {
+    "method": "GET",
+    "url": "https://api.freecurrencyapi.com/v1/status?apikey=YOUR_API_KEY",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "quotas": {
+        "month": {
+          "total": 300,
+          "used": 71,
+          "remaining": 229
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "hydra": "http://www.w3.org/ns/hydra/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@type": "WebAPI",
+  "@id": "https://freecurrencyapi.com/",
+  "name": "Free Currency API",
+  "description": "Free Currency API provides real-time and historical currency exchange rate data for 150+ currencies via a simple REST API. No registration is required for basic usage.",
+  "url": "https://freecurrencyapi.com/",
+  "documentation": "https://freecurrencyapi.com/docs",
+  "provider": {
+    "@type": "Organization",
+    "name": "Everapi",
+    "email": "support@everapi.com",
+    "url": "https://freecurrencyapi.com/contact/",
+    "sameAs": "https://github.com/everapihq"
+  },
+  "availableChannel": {
+    "@type": "ServiceChannel",
+    "serviceUrl": "https://api.freecurrencyapi.com/v1",
+    "serviceType": "REST API"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://freecurrencyapi.com/",
+    "description": "Free tier available with no registration required for basic usage"
+  },
+  "keywords": [
+    "currency",
+    "exchange rates",
+    "finance",
+    "forex",
+    "historical rates",
+    "REST API",
+    "free"
+  ],
+  "encodingFormat": "application/json",
+  "hasAPI": [
+    {
+      "@type": "EntryPoint",
+      "@id": "https://api.freecurrencyapi.com/v1/status",
+      "name": "Status",
+      "description": "Returns current API quota usage. Calls to this endpoint do not count against quota.",
+      "httpMethod": "GET",
+      "urlTemplate": "https://api.freecurrencyapi.com/v1/status{?apikey}"
+    },
+    {
+      "@type": "EntryPoint",
+      "@id": "https://api.freecurrencyapi.com/v1/currencies",
+      "name": "Currencies",
+      "description": "Returns available currency information including names, native symbols, and decimal digits.",
+      "httpMethod": "GET",
+      "urlTemplate": "https://api.freecurrencyapi.com/v1/currencies{?apikey,currencies}"
+    },
+    {
+      "@type": "EntryPoint",
+      "@id": "https://api.freecurrencyapi.com/v1/latest",
+      "name": "Latest Exchange Rates",
+      "description": "Returns the latest daily exchange rates for 150+ currencies, updated daily.",
+      "httpMethod": "GET",
+      "urlTemplate": "https://api.freecurrencyapi.com/v1/latest{?apikey,base_currency,currencies}"
+    },
+    {
+      "@type": "EntryPoint",
+      "@id": "https://api.freecurrencyapi.com/v1/historical",
+      "name": "Historical Exchange Rates",
+      "description": "Returns end-of-day exchange rates for a specific historical date. Data available back to 1999.",
+      "httpMethod": "GET",
+      "urlTemplate": "https://api.freecurrencyapi.com/v1/historical{?apikey,date,base_currency,currencies}"
+    }
+  ],
+  "termsOfService": "https://freecurrencyapi.com/",
+  "softwareVersion": "v1"
+}
