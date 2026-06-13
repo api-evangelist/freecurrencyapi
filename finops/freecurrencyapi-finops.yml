@@ -1,0 +1,80 @@
+name: Free Currency API FinOps
+description: >-
+  Financial operations guidance for Free Currency API usage. The free tier
+  provides 1,000 monthly requests at no cost. Cost management focuses on
+  tracking quota consumption via response headers and the status endpoint to
+  avoid unexpected 429 errors. For commercial or high-volume use cases, budget
+  planning should account for migration to the commercial sibling service
+  currencyapi.com.
+url: https://freecurrencyapi.com/
+created: '2026-06-13'
+modified: '2026-06-13'
+model: free-tier-only
+costStructure:
+  - tier: Free
+    monthlyCost: 0.00
+    currency: USD
+    requestsIncluded: 1000
+    costPerAdditionalRequest: null
+    note: >-
+      No paid overage is available on the free tier. Once 1,000 monthly
+      requests are exhausted, all requests return 429 until the month resets.
+      Upgrade path is to currencyapi.com commercial plans.
+quotaMonitoring:
+  description: >-
+    Monitor quota usage via HTTP response headers on every API call or by
+    querying the /status endpoint (which does not consume quota). Track
+    X-RateLimit-Remaining-Quota-Month to proactively manage usage and
+    prevent service interruption.
+  headers:
+    - X-RateLimit-Remaining-Quota-Month
+    - X-RateLimit-Limit-Quota-Month
+    - X-RateLimit-Remaining-Quota-Minute
+    - X-RateLimit-Limit-Quota-Minute
+  statusEndpoint: https://api.freecurrencyapi.com/v1/status
+costOptimization:
+  - strategy: Cache responses locally
+    description: >-
+      Since rates update only once daily, cache API responses in your
+      application for up to 24 hours to dramatically reduce monthly request
+      consumption.
+  - strategy: Filter currencies
+    description: >-
+      Use the currencies parameter to request only the specific currencies
+      you need rather than fetching all 32+ currencies on every call,
+      reducing response size (though each call still counts as one request).
+  - strategy: Use status endpoint for monitoring
+    description: >-
+      The /status endpoint does not consume quota. Use it freely to monitor
+      remaining quota without impacting your monthly allocation.
+  - strategy: Batch date requests
+    description: >-
+      For historical data needs, plan queries carefully as each date requires
+      a separate API call. Batch and cache historical lookups to avoid
+      repeated requests for the same date.
+upgradeConsiderations:
+  - trigger: Approaching 1,000 monthly requests
+    recommendation: >-
+      Evaluate currencyapi.com commercial plans if your project requires
+      more than 1,000 monthly requests or commercial use rights.
+  - trigger: Need for minutely updates
+    recommendation: >-
+      freecurrencyapi.com only provides daily rate updates. For real-time
+      or minutely exchange rates, upgrade to currencyapi.com.
+  - trigger: Need for 170+ currencies
+    recommendation: >-
+      The free tier covers 32+ major currencies. For broader currency
+      coverage including exotic and minor currencies, currencyapi.com
+      offers 170+ currencies.
+  - trigger: Commercial use
+    recommendation: >-
+      freecurrencyapi.com free tier explicitly prohibits commercial use.
+      Any production or revenue-generating application requires migration
+      to currencyapi.com.
+commercialAlternative:
+  name: Currency API
+  url: https://currencyapi.com/
+  description: >-
+    The commercial sibling service operated by Everapi, offering higher
+    request quotas, 170+ currencies, minutely updates, range endpoints,
+    and commercial use rights.

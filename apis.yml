@@ -1,0 +1,65 @@
+aid: freecurrencyapi
+name: Free Currency API
+description: >-
+  Free Currency API provides real-time and historical currency exchange rate
+  data for 150+ currencies via a simple REST API. No registration is required
+  for basic usage, making it ideal for hobby and development projects. The API
+  offers daily-updated current exchange rates, historical rates dating back to
+  1999, and multi-currency support with official SDKs for JavaScript, Python,
+  PHP, Go, Ruby, Rust, C#, and R.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/freecurrencyapi/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+tags:
+  - Currency
+  - Exchange Rates
+  - Finance
+  - Historical Data
+  - Free
+apis:
+  - aid: freecurrencyapi:freecurrencyapi
+    name: Free Currency API
+    description: >-
+      REST API providing real-time and historical currency exchange rate data
+      for 150+ currencies. Includes endpoints for latest rates, historical
+      rates by date, available currencies list, and quota status. Supports API
+      key authentication via query parameter or HTTP header.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://freecurrencyapi.com/
+    baseURL: https://api.freecurrencyapi.com/v1
+    tags:
+      - Currency
+      - Exchange Rates
+      - Finance
+      - Historical Data
+    properties:
+      - type: Documentation
+        url: https://freecurrencyapi.com/docs
+      - type: OpenAPI
+        url: https://freecurrencyapi.com/docs
+    contact:
+      - FN: Everapi Support
+        email: support@everapi.com
+        url: https://freecurrencyapi.com/contact/
+common:
+  - type: Website
+    url: https://freecurrencyapi.com/
+  - type: Documentation
+    url: https://freecurrencyapi.com/docs
+  - type: GitHubOrg
+    url: https://github.com/everapihq
+  - type: Pricing
+    url: https://freecurrencyapi.com/
+  - type: StatusPage
+    url: https://api.freecurrencyapi.com/v1/status
+  - type: Plans
+    url: https://raw.githubusercontent.com/api-evangelist/freecurrencyapi/refs/heads/main/plans/freecurrencyapi-plans-pricing.yml
+  - type: RateLimits
+    url: https://raw.githubusercontent.com/api-evangelist/freecurrencyapi/refs/heads/main/rate-limits/freecurrencyapi-rate-limits.yml
+  - type: FinOps
+    url: https://raw.githubusercontent.com/api-evangelist/freecurrencyapi/refs/heads/main/finops/freecurrencyapi-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

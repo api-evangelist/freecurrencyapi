@@ -1,0 +1,56 @@
+name: Free Currency API Rate Limits
+description: >-
+  Free Currency API enforces two levels of rate limiting: a monthly quota cap
+  and a per-minute request limit. Only successful API calls count against the
+  quota. Errors returned by the server or validation errors do not consume
+  quota. Rate limit status is communicated via response headers and HTTP 429
+  status codes. The /status endpoint can be queried at any time without
+  consuming quota.
+url: https://freecurrencyapi.com/docs/status
+created: '2026-06-13'
+modified: '2026-06-13'
+rateLimits:
+  - name: Monthly Quota
+    description: >-
+      Each plan has a fixed monthly allocation of API requests. Requests reset
+      at the start of each billing month. Once the monthly quota is exhausted
+      a 429 HTTP status code is returned until the quota resets.
+    scope: monthly
+    limit: 1000
+    plan: Free
+    enforcement: HTTP 429 status code on quota exhaustion
+    resetPeriod: monthly
+  - name: Per-Minute Rate Limit
+    description: >-
+      In addition to the monthly quota, there is a per-minute request rate
+      limit that prevents burst usage. Exceeding the per-minute limit returns
+      a 429 HTTP status code until the minute window resets.
+    scope: minute
+    limit: null
+    note: Specific per-minute limit value not publicly documented; enforced via HTTP 429
+    enforcement: HTTP 429 status code on rate limit breach
+    resetPeriod: per minute
+headers:
+  - name: X-RateLimit-Limit-Quota-Month
+    description: Total monthly request quota for your plan
+  - name: X-RateLimit-Remaining-Quota-Month
+    description: Remaining monthly requests for the current billing period
+  - name: X-RateLimit-Limit-Quota-Minute
+    description: Maximum requests allowed per minute
+  - name: X-RateLimit-Remaining-Quota-Minute
+    description: Remaining requests in the current minute window
+statusCodes:
+  - code: 429
+    meaning: >-
+      Too Many Requests — either the monthly quota or per-minute rate limit
+      has been exceeded. Wait until the reset period to resume requests.
+quotaExclusions:
+  - Server-side errors do not count against quota
+  - Validation errors do not count against quota
+  - Requests to the /status endpoint do not count against quota or rate limit
+statusEndpoint:
+  url: https://api.freecurrencyapi.com/v1/status
+  description: >-
+    Returns current quota usage including total monthly quota, requests used,
+    and remaining requests. Does not consume quota.
+  authentication: apikey query parameter or apikey HTTP header required

@@ -1,0 +1,56 @@
+name: Free Currency API Plans and Pricing
+description: >-
+  Free Currency API offers a free tier with 1,000 monthly API requests for
+  hobby and non-commercial projects. For commercial use, higher request volumes,
+  or additional features such as minutely updates, 170+ currencies, and range
+  endpoints, users are directed to the commercial service at currencyapi.com.
+url: https://freecurrencyapi.com/
+created: '2026-06-13'
+modified: '2026-06-13'
+plans:
+  - name: Free
+    description: >-
+      The free plan provides 1,000 API requests per month with access to 32+
+      major world currencies updated daily. Suitable for hobby projects and
+      development testing. Commercial use is not permitted under this plan.
+    url: https://freecurrencyapi.com/
+    price: 0.00
+    currency: USD
+    billing: monthly
+    features:
+      - 1,000 monthly API requests
+      - 32+ world currencies
+      - Daily rate updates
+      - Historical data from 1999
+      - Latest exchange rates endpoint
+      - Historical exchange rates endpoint
+      - Currency list endpoint
+      - Status/quota endpoint
+      - Official SDKs (JS, Python, PHP, Go, Ruby, Rust, C#, R)
+      - API key authentication
+    limits:
+      monthlyRequests: 1000
+      currencies: 32
+      updateFrequency: daily
+    restrictions:
+      - Hobby and non-commercial use only
+      - No commercial use permitted
+  - name: Commercial (currencyapi.com)
+    description: >-
+      For commercial use, users are directed to currencyapi.com which offers
+      higher request volumes, 170+ currencies, minutely rate updates, and
+      custom enterprise plans. The currencyapi.com service is the commercial
+      sibling of freecurrencyapi.com run by the same provider (Everapi).
+    url: https://currencyapi.com/
+    price: null
+    currency: USD
+    billing: monthly
+    features:
+      - 170+ currencies
+      - Minutely rate updates
+      - Range endpoint for date spans
+      - Commercial use permitted
+      - Custom enterprise plans
+      - Higher monthly request quotas
+    restrictions:
+      - Paid plans required for commercial use
