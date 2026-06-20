@@ -7,7 +7,7 @@ description: >-
   offers daily-updated current exchange rates, historical rates dating back to
   1999, and multi-currency support with official SDKs for JavaScript, Python,
   PHP, Go, Ruby, Rust, C#, and R.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/freecurrencyapi/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -26,7 +26,7 @@ apis:
       for 150+ currencies. Includes endpoints for latest rates, historical
       rates by date, available currencies list, and quota status. Supports API
       key authentication via query parameter or HTTP header.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://freecurrencyapi.com/
     baseURL: https://api.freecurrencyapi.com/v1
     tags:
