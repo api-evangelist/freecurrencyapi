@@ -44,6 +44,10 @@ apis:
         email: support@everapi.com
         url: https://freecurrencyapi.com/contact/
 common:
+  - type: DomainSecurity
+    url: security/freecurrencyapi-domain-security.yml
+  - type: Authentication
+    url: authentication/freecurrencyapi-authentication.yml
   - type: Website
     url: https://freecurrencyapi.com/
   - type: Documentation
