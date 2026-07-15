@@ -44,6 +44,8 @@ apis:
         email: support@everapi.com
         url: https://freecurrencyapi.com/contact/
 common:
+  - type: AgenticAccess
+    url: agentic-access/freecurrencyapi-agentic-access.yml
   - type: DomainSecurity
     url: security/freecurrencyapi-domain-security.yml
   - type: Authentication
