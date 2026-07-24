@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: Free Currency Currencies Status API
+  description: Free Currency API provides real-time and historical currency exchange rate data for 150+ currencies via a simple REST API. No registration is required for basic usage. The API offers daily-updated current exchange rates, historical rates dating back to 1999, and multi-currency support.
+  version: '1'
+  contact:
+    name: Everapi Support
+    email: support@everapi.com
+    url: https://freecurrencyapi.com/contact/
+  termsOfService: https://freecurrencyapi.com/
+servers:
+- url: https://api.freecurrencyapi.com/v1
+  description: Production server
+security:
+- ApiKeyQuery: []
+- ApiKeyHeader: []
+tags:
+- name: Status
+  description: API quota and status information
+paths:
+  /status:
+    get:
+      operationId: getStatus
+      summary: Get API quota status
+      description: Returns your current quota usage. Calls to this endpoint do not count against your quota or rate limit.
+      tags:
+      - Status
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      responses:
+        '200':
+          description: Current quota information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+              example:
+                quotas:
+                  month:
+                    total: 300
+                    used: 71
+                    remaining: 229
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Error message describing what went wrong
+    QuotaPeriod:
+      type: object
+      description: Quota usage details for a time period
+      properties:
+        total:
+          type: integer
+          description: Total requests allowed in this period
+          example: 300
+        used:
+          type: integer
+          description: Requests used in this period
+          example: 71
+        remaining:
+          type: integer
+          description: Requests remaining in this period
+          example: 229
+    StatusResponse:
+      type: object
+      description: API quota status response
+      properties:
+        quotas:
+          type: object
+          description: Quota usage by time period
+          properties:
+            month:
+              $ref: '#/components/schemas/QuotaPeriod'
+  parameters:
+    ApiKeyQuery:
+      name: apikey
+      in: query
+      required: false
+      description: Your API key for authentication.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Unauthorized - invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimitExceeded:
+      description: Rate limit or monthly quota exceeded. Check response headers for limit details.
+      headers:
+        X-RateLimit-Limit-Quota-Minute:
+          schema:
+            type: integer
+          description: Per-minute request limit
+        X-RateLimit-Limit-Quota-Month:
+          schema:
+            type: integer
+          description: Monthly request limit
+        X-RateLimit-Remaining-Quota-Minute:
+          schema:
+            type: integer
+          description: Remaining per-minute requests
+        X-RateLimit-Remaining-Quota-Month:
+          schema:
+            type: integer
+          description: Remaining monthly requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: apikey
+      description: 'API key passed as a query parameter. Note: this may expose your API key in access logs. Using the header method is recommended.'
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: apikey
+      description: API key passed as an HTTP header (recommended method).
