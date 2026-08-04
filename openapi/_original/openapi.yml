@@ -1,0 +1,367 @@
+openapi: 3.0.3
+info:
+  title: Free Currency API
+  description: >-
+    Free Currency API provides real-time and historical currency exchange rate
+    data for 150+ currencies via a simple REST API. No registration is required
+    for basic usage. The API offers daily-updated current exchange rates,
+    historical rates dating back to 1999, and multi-currency support.
+  version: '1'
+  contact:
+    name: Everapi Support
+    email: support@everapi.com
+    url: https://freecurrencyapi.com/contact/
+  termsOfService: https://freecurrencyapi.com/
+servers:
+  - url: https://api.freecurrencyapi.com/v1
+    description: Production server
+security:
+  - ApiKeyQuery: []
+  - ApiKeyHeader: []
+tags:
+  - name: Status
+    description: API quota and status information
+  - name: Currencies
+    description: Available currency information
+  - name: Exchange Rates
+    description: Current and historical exchange rate data
+paths:
+  /status:
+    get:
+      operationId: getStatus
+      summary: Get API quota status
+      description: >-
+        Returns your current quota usage. Calls to this endpoint do not count
+        against your quota or rate limit.
+      tags:
+        - Status
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyQuery'
+      responses:
+        '200':
+          description: Current quota information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+              example:
+                quotas:
+                  month:
+                    total: 300
+                    used: 71
+                    remaining: 229
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+  /currencies:
+    get:
+      operationId: getCurrencies
+      summary: Get available currencies
+      description: >-
+        Returns a list of all available currencies with their metadata including
+        name, native symbol, decimal digits, and rounding information.
+      tags:
+        - Currencies
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyQuery'
+        - name: currencies
+          in: query
+          required: false
+          description: >-
+            A comma-separated list of currency codes to filter results
+            (e.g., EUR,USD,CAD). Returns all available currencies by default.
+          schema:
+            type: string
+            example: EUR,USD,CAD
+      responses:
+        '200':
+          description: Currency information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrenciesResponse'
+              example:
+                data:
+                  AED:
+                    symbol: AED
+                    name: United Arab Emirates Dirham
+                    symbol_native: د.إ
+                    decimal_digits: 2
+                    rounding: 0
+                    code: AED
+                    name_plural: UAE dirhams
+                  USD:
+                    symbol: USD
+                    name: US Dollar
+                    symbol_native: $
+                    decimal_digits: 2
+                    rounding: 0
+                    code: USD
+                    name_plural: US dollars
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+  /latest:
+    get:
+      operationId: getLatestRates
+      summary: Get latest exchange rates
+      description: >-
+        Returns the latest daily exchange rates for 150+ currencies. Data is
+        updated daily using end-of-day exchange rate information.
+      tags:
+        - Exchange Rates
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyQuery'
+        - name: base_currency
+          in: query
+          required: false
+          description: >-
+            The base currency to use for conversion. Defaults to USD if not
+            specified.
+          schema:
+            type: string
+            example: USD
+        - name: currencies
+          in: query
+          required: false
+          description: >-
+            A comma-separated list of currency codes to return
+            (e.g., EUR,USD,CAD). Returns all available currencies by default.
+          schema:
+            type: string
+            example: EUR,USD,CAD
+      responses:
+        '200':
+          description: Latest exchange rates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LatestRatesResponse'
+              example:
+                data:
+                  AED: 3.67306
+                  AFN: 91.80254
+                  ALL: 108.22904
+                  AMD: 480.41659
+                  EUR: 0.92145
+                  USD: 1.0
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+  /historical:
+    get:
+      operationId: getHistoricalRates
+      summary: Get historical exchange rates
+      description: >-
+        Returns end-of-day exchange rates for a specific historical date.
+        Historical data is available dating back to 1999.
+      tags:
+        - Exchange Rates
+      parameters:
+        - $ref: '#/components/parameters/ApiKeyQuery'
+        - name: date
+          in: query
+          required: true
+          description: >-
+            The date to retrieve historical rates for (format: YYYY-MM-DD,
+            e.g., 2021-12-31).
+          schema:
+            type: string
+            format: date
+            example: '2022-01-01'
+        - name: base_currency
+          in: query
+          required: false
+          description: >-
+            The base currency to use for conversion. Defaults to USD if not
+            specified.
+          schema:
+            type: string
+            example: USD
+        - name: currencies
+          in: query
+          required: false
+          description: >-
+            A comma-separated list of currency codes to return
+            (e.g., EUR,USD,CAD). Returns all available currencies by default.
+          schema:
+            type: string
+            example: EUR,USD,CAD
+      responses:
+        '200':
+          description: Historical exchange rates for the specified date
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoricalRatesResponse'
+              example:
+                data:
+                  '2022-01-01':
+                    AED: 3.67306
+                    AFN: 91.80254
+                    ALL: 108.22904
+                    AMD: 480.41659
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+components:
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: apikey
+      description: >-
+        API key passed as a query parameter. Note: this may expose your API key
+        in access logs. Using the header method is recommended.
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: apikey
+      description: API key passed as an HTTP header (recommended method).
+  parameters:
+    ApiKeyQuery:
+      name: apikey
+      in: query
+      required: false
+      description: Your API key for authentication.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Unauthorized - invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimitExceeded:
+      description: >-
+        Rate limit or monthly quota exceeded. Check response headers for limit
+        details.
+      headers:
+        X-RateLimit-Limit-Quota-Minute:
+          schema:
+            type: integer
+          description: Per-minute request limit
+        X-RateLimit-Limit-Quota-Month:
+          schema:
+            type: integer
+          description: Monthly request limit
+        X-RateLimit-Remaining-Quota-Minute:
+          schema:
+            type: integer
+          description: Remaining per-minute requests
+        X-RateLimit-Remaining-Quota-Month:
+          schema:
+            type: integer
+          description: Remaining monthly requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ValidationError:
+      description: Validation error - invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    QuotaPeriod:
+      type: object
+      description: Quota usage details for a time period
+      properties:
+        total:
+          type: integer
+          description: Total requests allowed in this period
+          example: 300
+        used:
+          type: integer
+          description: Requests used in this period
+          example: 71
+        remaining:
+          type: integer
+          description: Requests remaining in this period
+          example: 229
+    StatusResponse:
+      type: object
+      description: API quota status response
+      properties:
+        quotas:
+          type: object
+          description: Quota usage by time period
+          properties:
+            month:
+              $ref: '#/components/schemas/QuotaPeriod'
+    CurrencyInfo:
+      type: object
+      description: Detailed information about a currency
+      properties:
+        symbol:
+          type: string
+          description: Standard currency code
+          example: AED
+        name:
+          type: string
+          description: Full English name of the currency
+          example: United Arab Emirates Dirham
+        symbol_native:
+          type: string
+          description: Native language symbol representation
+          example: د.إ
+        decimal_digits:
+          type: integer
+          description: Number of decimal digits used by this currency
+          example: 2
+        rounding:
+          type: number
+          description: Rounding configuration for the currency
+          example: 0
+        code:
+          type: string
+          description: Currency code identifier
+          example: AED
+        name_plural:
+          type: string
+          description: Plural form of the currency name
+          example: UAE dirhams
+    CurrenciesResponse:
+      type: object
+      description: Available currencies response
+      properties:
+        data:
+          type: object
+          description: Map of currency codes to currency information
+          additionalProperties:
+            $ref: '#/components/schemas/CurrencyInfo'
+    LatestRatesResponse:
+      type: object
+      description: Latest exchange rates response
+      properties:
+        data:
+          type: object
+          description: Map of currency codes to exchange rate values relative to base currency
+          additionalProperties:
+            type: number
+    HistoricalRatesResponse:
+      type: object
+      description: Historical exchange rates response
+      properties:
+        data:
+          type: object
+          description: Map of date strings to exchange rate objects
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: number
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Error message describing what went wrong

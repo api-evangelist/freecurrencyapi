@@ -1,0 +1,18 @@
+{
+  "provider": "freecurrencyapi",
+  "sources": [
+    "freecurrencyapi-currencies-api-openapi.yml",
+    "freecurrencyapi-exchange-rates-api-openapi.yml",
+    "freecurrencyapi-status-api-openapi.yml"
+  ],
+  "outputs": [
+    "freecurrencyapi-currencies-api-openapi.yml",
+    "freecurrencyapi-exchange-rates-api-openapi.yml",
+    "freecurrencyapi-status-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
