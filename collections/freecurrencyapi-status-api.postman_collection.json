@@ -1,0 +1,247 @@
+{
+  "item": [
+    {
+      "id": "6a323979-94af-45f4-8063-916e8a8260df",
+      "name": "Status",
+      "description": {
+        "content": "API quota and status information",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4643e8bd-857b-41c6-9670-fc1062217c00",
+          "name": "Get API quota status",
+          "request": {
+            "name": "Get API quota status",
+            "description": {
+              "content": "Returns your current quota usage. Calls to this endpoint do not count against your quota or rate limit.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "apikey",
+                  "value": "<string>",
+                  "description": "Your API key for authentication."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "967bf031-8cdf-46a4-90d9-0d002c72cd2c",
+              "name": "Current quota information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apikey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"quotas\": {\n    \"month\": {\n      \"total\": 300,\n      \"used\": 71,\n      \"remaining\": 229\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4196dda3-7fb8-4af3-9a3c-c0a73a3f31b5",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apikey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d3fd1eb-3679-4ee1-8068-9af70b70bda0",
+              "name": "Rate limit or monthly quota exceeded. Check response headers for limit details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apikey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Per-minute request limit",
+                  "key": "X-RateLimit-Limit-Quota-Minute",
+                  "value": "4837"
+                },
+                {
+                  "disabled": false,
+                  "description": "Monthly request limit",
+                  "key": "X-RateLimit-Limit-Quota-Month",
+                  "value": "4837"
+                },
+                {
+                  "disabled": false,
+                  "description": "Remaining per-minute requests",
+                  "key": "X-RateLimit-Remaining-Quota-Minute",
+                  "value": "4837"
+                },
+                {
+                  "disabled": false,
+                  "description": "Remaining monthly requests",
+                  "key": "X-RateLimit-Remaining-Quota-Month",
+                  "value": "4837"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.freecurrencyapi.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apikey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e48d145d-9a53-4927-8a1e-cf4b5de96be8",
+    "name": "Free Currency Currencies Status API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Free Currency API provides real-time and historical currency exchange rate data for 150+ currencies via a simple REST API. No registration is required for basic usage. The API offers daily-updated current exchange rates, historical rates dating back to 1999, and multi-currency support.\n\nContact Support:\n Name: Everapi Support\n Email: support@everapi.com",
+      "type": "text/plain"
+    }
+  }
+}

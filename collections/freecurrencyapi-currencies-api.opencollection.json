@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Free Currency Currencies API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Currencies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get available currencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.freecurrencyapi.com/v1/currencies",
+            "params": [
+              {
+                "name": "apikey",
+                "value": "",
+                "type": "query",
+                "description": "Your API key for authentication."
+              },
+              {
+                "name": "currencies",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of currency codes to filter results (e.g., EUR,USD,CAD). Returns all available currencies by default."
+              }
+            ]
+          },
+          "docs": "Returns a list of all available currencies with their metadata including name, native symbol, decimal digits, and rounding information."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

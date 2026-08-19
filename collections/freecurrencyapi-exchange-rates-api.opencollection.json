@@ -1,0 +1,94 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Free Currency Currencies Exchange Rates API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apikey",
+      "value": "{{apikey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Exchange Rates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get latest exchange rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.freecurrencyapi.com/v1/latest",
+            "params": [
+              {
+                "name": "apikey",
+                "value": "",
+                "type": "query",
+                "description": "Your API key for authentication."
+              },
+              {
+                "name": "base_currency",
+                "value": "",
+                "type": "query",
+                "description": "The base currency to use for conversion. Defaults to USD if not specified."
+              },
+              {
+                "name": "currencies",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of currency codes to return (e.g., EUR,USD,CAD). Returns all available currencies by default."
+              }
+            ]
+          },
+          "docs": "Returns the latest daily exchange rates for 150+ currencies. Data is updated daily using end-of-day exchange rate information."
+        },
+        {
+          "info": {
+            "name": "Get historical exchange rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.freecurrencyapi.com/v1/historical",
+            "params": [
+              {
+                "name": "apikey",
+                "value": "",
+                "type": "query",
+                "description": "Your API key for authentication."
+              },
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "The date to retrieve historical rates for (format: YYYY-MM-DD, e.g., 2021-12-31)."
+              },
+              {
+                "name": "base_currency",
+                "value": "",
+                "type": "query",
+                "description": "The base currency to use for conversion. Defaults to USD if not specified."
+              },
+              {
+                "name": "currencies",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of currency codes to return (e.g., EUR,USD,CAD). Returns all available currencies by default."
+              }
+            ]
+          },
+          "docs": "Returns end-of-day exchange rates for a specific historical date. Historical data is available dating back to 1999."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

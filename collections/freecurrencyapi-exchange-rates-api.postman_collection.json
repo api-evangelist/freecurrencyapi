@@ -1,0 +1,591 @@
+{
+  "item": [
+    {
+      "id": "d5205c96-0590-44f3-baa9-2990d455873f",
+      "name": "Exchange Rates",
+      "description": {
+        "content": "Current and historical exchange rate data",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "881e7cba-6d31-4d37-b9a9-112b80b2acb2",
+          "name": "Get latest exchange rates",
+          "request": {
+            "name": "Get latest exchange rates",
+            "description": {
+              "content": "Returns the latest daily exchange rates for 150+ currencies. Data is updated daily using end-of-day exchange rate information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "latest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "apikey",
+                  "value": "<string>",
+                  "description": "Your API key for authentication."
+                },
+                {
+                  "disabled": false,
+                  "key": "base_currency",
+                  "value": "<string>",
+                  "description": "The base currency to use for conversion. Defaults to USD if not specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "currencies",
+                  "value": "<string>",
+                  "description": "A comma-separated list of currency codes to return (e.g., EUR,USD,CAD). Returns all available currencies by default."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f3d16256-0aa8-467d-b570-9d058b5a032e",
+              "name": "Latest exchange rates",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "base_currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "currencies",
+                      "value": "EUR,USD,CAD"
+                    },
+                    {
+                      "key": "apikey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"AED\": 3.67306,\n    \"AFN\": 91.80254,\n    \"ALL\": 108.22904,\n    \"AMD\": 480.41659,\n    \"EUR\": 0.92145,\n    \"USD\": 1\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a37c44b3-e462-4398-9ef6-92e0264cb456",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "base_currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "currencies",
+                      "value": "EUR,USD,CAD"
+                    },
+                    {
+                      "key": "apikey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4bc3573d-7760-4faa-bd5a-b9a93c6b6b26",
+              "name": "Rate limit or monthly quota exceeded. Check response headers for limit details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "base_currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "currencies",
+                      "value": "EUR,USD,CAD"
+                    },
+                    {
+                      "key": "apikey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Per-minute request limit",
+                  "key": "X-RateLimit-Limit-Quota-Minute",
+                  "value": "7492"
+                },
+                {
+                  "disabled": false,
+                  "description": "Monthly request limit",
+                  "key": "X-RateLimit-Limit-Quota-Month",
+                  "value": "7492"
+                },
+                {
+                  "disabled": false,
+                  "description": "Remaining per-minute requests",
+                  "key": "X-RateLimit-Remaining-Quota-Minute",
+                  "value": "7492"
+                },
+                {
+                  "disabled": false,
+                  "description": "Remaining monthly requests",
+                  "key": "X-RateLimit-Remaining-Quota-Month",
+                  "value": "7492"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "574ecad5-7aa4-4ec2-a25e-9ebab488e834",
+          "name": "Get historical exchange rates",
+          "request": {
+            "name": "Get historical exchange rates",
+            "description": {
+              "content": "Returns end-of-day exchange rates for a specific historical date. Historical data is available dating back to 1999.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "historical"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "apikey",
+                  "value": "<string>",
+                  "description": "Your API key for authentication."
+                },
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) The date to retrieve historical rates for (format: YYYY-MM-DD, e.g., 2021-12-31)."
+                },
+                {
+                  "disabled": false,
+                  "key": "base_currency",
+                  "value": "<string>",
+                  "description": "The base currency to use for conversion. Defaults to USD if not specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "currencies",
+                  "value": "<string>",
+                  "description": "A comma-separated list of currency codes to return (e.g., EUR,USD,CAD). Returns all available currencies by default."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c60631da-e777-4a78-8cd0-b50f8261b14b",
+              "name": "Historical exchange rates for the specified date",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "historical"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date",
+                      "value": "2022-01-01"
+                    },
+                    {
+                      "key": "base_currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "currencies",
+                      "value": "EUR,USD,CAD"
+                    },
+                    {
+                      "key": "apikey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"2022-01-01\": {\n      \"AED\": 3.67306,\n      \"AFN\": 91.80254,\n      \"ALL\": 108.22904,\n      \"AMD\": 480.41659\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "32610ae8-20de-46e0-b5d9-aaf390455d46",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "historical"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date",
+                      "value": "2022-01-01"
+                    },
+                    {
+                      "key": "base_currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "currencies",
+                      "value": "EUR,USD,CAD"
+                    },
+                    {
+                      "key": "apikey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fab204f7-cea5-4478-aca8-a9d5e1021088",
+              "name": "Validation error - invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "historical"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date",
+                      "value": "2022-01-01"
+                    },
+                    {
+                      "key": "base_currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "currencies",
+                      "value": "EUR,USD,CAD"
+                    },
+                    {
+                      "key": "apikey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c064a2dd-09d1-4a07-b06a-809760caa3a0",
+              "name": "Rate limit or monthly quota exceeded. Check response headers for limit details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "historical"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apikey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date",
+                      "value": "2022-01-01"
+                    },
+                    {
+                      "key": "base_currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "currencies",
+                      "value": "EUR,USD,CAD"
+                    },
+                    {
+                      "key": "apikey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Per-minute request limit",
+                  "key": "X-RateLimit-Limit-Quota-Minute",
+                  "value": "7492"
+                },
+                {
+                  "disabled": false,
+                  "description": "Monthly request limit",
+                  "key": "X-RateLimit-Limit-Quota-Month",
+                  "value": "7492"
+                },
+                {
+                  "disabled": false,
+                  "description": "Remaining per-minute requests",
+                  "key": "X-RateLimit-Remaining-Quota-Minute",
+                  "value": "7492"
+                },
+                {
+                  "disabled": false,
+                  "description": "Remaining monthly requests",
+                  "key": "X-RateLimit-Remaining-Quota-Month",
+                  "value": "7492"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.freecurrencyapi.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apikey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e8e4df87-d3bc-4eb1-b03b-9dd9c6bd4d03",
+    "name": "Free Currency Currencies Exchange Rates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Free Currency API provides real-time and historical currency exchange rate data for 150+ currencies via a simple REST API. No registration is required for basic usage. The API offers daily-updated current exchange rates, historical rates dating back to 1999, and multi-currency support.\n\nContact Support:\n Name: Everapi Support\n Email: support@everapi.com",
+      "type": "text/plain"
+    }
+  }
+}
