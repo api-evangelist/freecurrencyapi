@@ -38,6 +38,8 @@ apis:
   humanURL: https://freecurrencyapi.com/
   baseURL: https://api.freecurrencyapi.com/v1
   tags:
+  - Currency
+  tags_raw:
   - Currencies
   properties:
   - type: OpenAPI
