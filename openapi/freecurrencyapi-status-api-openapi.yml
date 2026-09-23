@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Free Currency Currencies Status API
+  title: Free Currency Status API
   description: Free Currency API provides real-time and historical currency exchange rate data for 150+ currencies via a simple REST API. No registration is required for basic usage. The API offers daily-updated current exchange rates, historical rates dating back to 1999, and multi-currency support.
   version: '1'
   contact:
@@ -53,6 +53,16 @@ components:
         message:
           type: string
           description: Error message describing what went wrong
+    StatusResponse:
+      type: object
+      description: API quota status response
+      properties:
+        quotas:
+          type: object
+          description: Quota usage by time period
+          properties:
+            month:
+              $ref: '#/components/schemas/QuotaPeriod'
     QuotaPeriod:
       type: object
       description: Quota usage details for a time period
@@ -69,24 +79,6 @@ components:
           type: integer
           description: Requests remaining in this period
           example: 229
-    StatusResponse:
-      type: object
-      description: API quota status response
-      properties:
-        quotas:
-          type: object
-          description: Quota usage by time period
-          properties:
-            month:
-              $ref: '#/components/schemas/QuotaPeriod'
-  parameters:
-    ApiKeyQuery:
-      name: apikey
-      in: query
-      required: false
-      description: Your API key for authentication.
-      schema:
-        type: string
   responses:
     Unauthorized:
       description: Unauthorized - invalid or missing API key
@@ -117,6 +109,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    ApiKeyQuery:
+      name: apikey
+      in: query
+      required: false
+      description: Your API key for authentication.
+      schema:
+        type: string
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
