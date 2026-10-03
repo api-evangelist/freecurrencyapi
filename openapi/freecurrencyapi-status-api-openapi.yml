@@ -45,14 +45,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitExceeded'
 components:
-  parameters:
-    ApiKeyQuery:
-      name: apikey
-      in: query
-      required: false
-      description: Your API key for authentication.
-      schema:
-        type: string
   schemas:
     StatusResponse:
       type: object
@@ -64,13 +56,6 @@ components:
           properties:
             month:
               $ref: '#/components/schemas/QuotaPeriod'
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        message:
-          type: string
-          description: Error message describing what went wrong
     QuotaPeriod:
       type: object
       description: Quota usage details for a time period
@@ -87,13 +72,22 @@ components:
           type: integer
           description: Requests remaining in this period
           example: 229
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Error message describing what went wrong
+  parameters:
+    ApiKeyQuery:
+      name: apikey
+      in: query
+      required: false
+      description: Your API key for authentication.
+      schema:
+        type: string
   responses:
-    Unauthorized:
-      description: Unauthorized - invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     RateLimitExceeded:
       description: Rate limit or monthly quota exceeded. Check response headers for limit details.
       headers:
@@ -113,6 +107,12 @@ components:
           schema:
             type: integer
           description: Remaining monthly requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - invalid or missing API key
       content:
         application/json:
           schema:
