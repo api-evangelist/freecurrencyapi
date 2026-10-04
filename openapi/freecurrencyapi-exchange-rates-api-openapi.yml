@@ -113,6 +113,13 @@ paths:
           $ref: '#/components/responses/RateLimitExceeded'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Error message describing what went wrong
     LatestRatesResponse:
       type: object
       description: Latest exchange rates response
@@ -133,20 +140,7 @@ components:
             type: object
             additionalProperties:
               type: number
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        message:
-          type: string
-          description: Error message describing what went wrong
   responses:
-    Unauthorized:
-      description: Unauthorized - invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     ValidationError:
       description: Validation error - invalid request parameters
       content:
@@ -172,6 +166,12 @@ components:
           schema:
             type: integer
           description: Remaining monthly requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized - invalid or missing API key
       content:
         application/json:
           schema:

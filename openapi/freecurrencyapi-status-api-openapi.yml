@@ -46,16 +46,13 @@ paths:
           $ref: '#/components/responses/RateLimitExceeded'
 components:
   schemas:
-    StatusResponse:
+    ErrorResponse:
       type: object
-      description: API quota status response
+      description: Error response
       properties:
-        quotas:
-          type: object
-          description: Quota usage by time period
-          properties:
-            month:
-              $ref: '#/components/schemas/QuotaPeriod'
+        message:
+          type: string
+          description: Error message describing what went wrong
     QuotaPeriod:
       type: object
       description: Quota usage details for a time period
@@ -72,13 +69,16 @@ components:
           type: integer
           description: Requests remaining in this period
           example: 229
-    ErrorResponse:
+    StatusResponse:
       type: object
-      description: Error response
+      description: API quota status response
       properties:
-        message:
-          type: string
-          description: Error message describing what went wrong
+        quotas:
+          type: object
+          description: Quota usage by time period
+          properties:
+            month:
+              $ref: '#/components/schemas/QuotaPeriod'
   parameters:
     ApiKeyQuery:
       name: apikey

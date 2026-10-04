@@ -64,14 +64,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitExceeded'
 components:
-  parameters:
-    ApiKeyQuery:
-      name: apikey
-      in: query
-      required: false
-      description: Your API key for authentication.
-      schema:
-        type: string
   schemas:
     ErrorResponse:
       type: object
@@ -121,6 +113,14 @@ components:
           type: string
           description: Plural form of the currency name
           example: UAE dirhams
+  parameters:
+    ApiKeyQuery:
+      name: apikey
+      in: query
+      required: false
+      description: Your API key for authentication.
+      schema:
+        type: string
   responses:
     RateLimitExceeded:
       description: Rate limit or monthly quota exceeded. Check response headers for limit details.
