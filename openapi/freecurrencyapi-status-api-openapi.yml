@@ -53,6 +53,16 @@ components:
         message:
           type: string
           description: Error message describing what went wrong
+    StatusResponse:
+      type: object
+      description: API quota status response
+      properties:
+        quotas:
+          type: object
+          description: Quota usage by time period
+          properties:
+            month:
+              $ref: '#/components/schemas/QuotaPeriod'
     QuotaPeriod:
       type: object
       description: Quota usage details for a time period
@@ -69,25 +79,13 @@ components:
           type: integer
           description: Requests remaining in this period
           example: 229
-    StatusResponse:
-      type: object
-      description: API quota status response
-      properties:
-        quotas:
-          type: object
-          description: Quota usage by time period
-          properties:
-            month:
-              $ref: '#/components/schemas/QuotaPeriod'
-  parameters:
-    ApiKeyQuery:
-      name: apikey
-      in: query
-      required: false
-      description: Your API key for authentication.
-      schema:
-        type: string
   responses:
+    Unauthorized:
+      description: Unauthorized - invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     RateLimitExceeded:
       description: Rate limit or monthly quota exceeded. Check response headers for limit details.
       headers:
@@ -111,12 +109,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized - invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    ApiKeyQuery:
+      name: apikey
+      in: query
+      required: false
+      description: Your API key for authentication.
+      schema:
+        type: string
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
