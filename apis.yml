@@ -44,42 +44,28 @@ tags:
   - Historical Data
   - Free
 apis:
-- aid: freecurrencyapi:freecurrencyapi-currencies-api
-  name: Free Currency API Currencies API
-  description: Available currency information
+- aid: freecurrencyapi:freecurrencyapi-metadata-api
+  name: Free Currency API Metadata API
+  description: Supported currencies and account status.
   humanURL: https://freecurrencyapi.com/
   baseURL: https://api.freecurrencyapi.com/v1
   tags:
-  - Currency
-  tags_raw:
-  - Currencies
+  - Metadata
   properties:
   - type: OpenAPI
-    url: openapi/freecurrencyapi-currencies-api-openapi.yml
+    url: openapi/freecurrencyapi-metadata-api-openapi.yml
   - type: Documentation
     url: https://freecurrencyapi.com/docs
-- aid: freecurrencyapi:freecurrencyapi-exchange-rates-api
-  name: Free Currency API Exchange Rates API
-  description: Current and historical exchange rate data
+- aid: freecurrencyapi:freecurrencyapi-rates-api
+  name: Free Currency API Rates API
+  description: Latest and historical exchange rates.
   humanURL: https://freecurrencyapi.com/
   baseURL: https://api.freecurrencyapi.com/v1
   tags:
-  - Exchange Rates
+  - Rates
   properties:
   - type: OpenAPI
-    url: openapi/freecurrencyapi-exchange-rates-api-openapi.yml
-  - type: Documentation
-    url: https://freecurrencyapi.com/docs
-- aid: freecurrencyapi:freecurrencyapi-status-api
-  name: Free Currency API Status API
-  description: API quota and status information
-  humanURL: https://freecurrencyapi.com/
-  baseURL: https://api.freecurrencyapi.com/v1
-  tags:
-  - Status
-  properties:
-  - type: OpenAPI
-    url: openapi/freecurrencyapi-status-api-openapi.yml
+    url: openapi/freecurrencyapi-rates-api-openapi.yml
   - type: Documentation
     url: https://freecurrencyapi.com/docs
 common:

@@ -1,0 +1,12 @@
+{
+ "url": "https://freecurrencyapi.com/docs/openapi.yaml",
+ "final": "https://freecurrencyapi.com/docs/openapi.yaml",
+ "status": 200,
+ "content_type": "text/yaml",
+ "bytes": 20384,
+ "sha256": "a8e95257cd36979e46616b1f7e9baa70e0b35329605b9674abbc8dfb7f582921",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

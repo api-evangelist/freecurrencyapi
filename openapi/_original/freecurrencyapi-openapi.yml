@@ -1,0 +1,439 @@
+openapi: 3.1.0
+info:
+  title: freecurrencyapi
+  version: "1"
+  summary: Free current and historical foreign exchange rates.
+  description: >-
+    freecurrencyapi provides current and historical exchange rates for a set of
+    world currencies. All endpoints are served over HTTPS and return JSON.
+    Authenticate every request with your API key, either as the `apikey` query
+    parameter or the `apikey` request header.
+
+
+    `HEAD` answers 405 (`method_not_allowed`; `Allow` names the methods the
+    endpoint takes) on every billed endpoint, without running or billing it.
+    `/v1/status` and the other free endpoints answer it like `GET`.
+
+
+    This document is generated from the freecurrencyapi service implementation
+    and is the machine-readable source of truth for the v1 REST API. A
+    human-readable version is available at https://freecurrencyapi.com/docs.
+    freecurrencyapi is the free tier of currencyapi.com — upgrade there for
+    minute-level data, the convert and range endpoints and more currencies.
+  contact:
+    name: freecurrencyapi support
+    email: support@freecurrencyapi.com
+servers:
+  - url: https://api.freecurrencyapi.com
+    description: Production
+security:
+  - ApiKeyQuery: []
+  - ApiKeyHeader: []
+tags:
+  - name: Rates
+    description: Latest and historical exchange rates.
+  - name: Metadata
+    description: Supported currencies and account status.
+paths:
+  /v1/latest:
+    get:
+      tags: [Rates]
+      summary: Latest exchange rates
+      operationId: getLatest
+      description: Returns the latest exchange rates for a base currency (default `USD`).
+      parameters:
+        - { $ref: '#/components/parameters/BaseCurrency' }
+        - { $ref: '#/components/parameters/Currencies' }
+      responses:
+        '200':
+          description: Latest rates, keyed by currency code.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RatesResponse' }
+              example:
+                data: { EUR: 0.918456, USD: 1, GBP: 0.789012 }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v1/historical:
+    get:
+      tags: [Rates]
+      summary: Historical exchange rates
+      operationId: getHistorical
+      description: >-
+        Returns exchange rates for a single past date (default: yesterday).
+        Requesting a range via `date_from`/`date_to` is not available on the free
+        plan and returns 403 — use currencyapi.com's `/range` endpoint instead.
+      parameters:
+        - { $ref: '#/components/parameters/BaseCurrency' }
+        - { $ref: '#/components/parameters/Currencies' }
+        - name: date
+          in: query
+          required: false
+          description: The date to fetch rates for (format `YYYY-MM-DD`). Defaults to yesterday.
+          schema: { type: string, format: date }
+          example: "2022-01-01"
+      responses:
+        '200':
+          description: Historical rates, keyed by date then currency code.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties: { type: number }
+                required: [data]
+              example:
+                data:
+                  "2022-01-01": { EUR: 0.879908, GBP: 0.739337 }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403':
+          description: Range queries are not available on the free plan.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+              example:
+                message: "To get a range of historical data, please upgrade to currencyapi.com in your dashboard and use the /range endpoint (https://currencyapi.com/docs/range)"
+        '422': { $ref: '#/components/responses/ValidationError' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v1/currencies:
+    get:
+      tags: [Metadata]
+      summary: List supported currencies
+      operationId: getCurrencies
+      description: Returns metadata for the supported currencies, optionally filtered.
+      parameters:
+        - { $ref: '#/components/parameters/Currencies' }
+      responses:
+        '200':
+          description: Supported currency metadata keyed by code.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties: { $ref: '#/components/schemas/CurrencyInfo' }
+                required: [data]
+              example:
+                data:
+                  EUR:
+                    symbol: "€"
+                    name: "Euro"
+                    symbol_native: "€"
+                    decimal_digits: 2
+                    rounding: 0
+                    code: "EUR"
+                    name_plural: "Euros"
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v1/status:
+    get:
+      tags: [Metadata]
+      summary: Account quota status
+      operationId: getStatus
+      description: Returns your quota usage and the plan of your API key's account. Does not count against your quota.
+      responses:
+        '200':
+          description: Current quota usage.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatusResponse' }
+              example:
+                account_id: 313373133731337
+                account_id_str: "313373133731337"
+                quotas:
+                  month: { total: 1000, used: 120, remaining: 880 }
+                  grace: { total: 0, used: 0, remaining: 0 }
+                plan:
+                  name: "free"
+                  interval: "month"
+                  price_id: "price_1AbCdEfGhIjKlMnOpQrStUvW"
+                  free: true
+                  custom: false
+                  status: "active"
+                  renews_at: "2026-11-01T00:00:00+00:00"
+                  scheduled: null
+                  upgrade_url: "https://app.freecurrencyapi.com/upgrade?utm_source=agent&utm_campaign=status&team=313373133731337"
+                  plans_url: "https://api.freecurrencyapi.com/v1/agent/plans"
+        '401': { $ref: '#/components/responses/Unauthorized' }
+components:
+  securitySchemes:
+    ApiKeyQuery: { type: apiKey, in: query, name: apikey, description: "API key as the apikey query parameter." }
+    ApiKeyHeader: { type: apiKey, in: header, name: apikey, description: "API key as the apikey request header (recommended)." }
+  parameters:
+    BaseCurrency:
+      name: base_currency
+      in: query
+      required: false
+      description: The base currency all values are relative to. Defaults to `USD`.
+      schema: { type: string }
+      example: "USD"
+    Currencies:
+      name: currencies
+      in: query
+      required: false
+      description: >-
+        Comma-separated currency codes to include (e.g. `EUR,USD,GBP`). Defaults
+        to the full supported set.
+      schema: { type: string }
+      example: "EUR,USD,GBP"
+  responses:
+    Unauthorized:
+      description: >-
+        The API key is missing or invalid: every request needs one, in the
+        `apikey` header or query parameter. Without a key the message is "No
+        API key found in request" (`error.code` `missing_api_key`), with an
+        unknown key "Unauthorized" (`invalid_api_key`). `actions.sign_up`
+        creates an account with a free API key. `actions` can also carry
+        `agent_setup` (setup steps for AI coding agents), `pricing` (the plans
+        as JSON) and `openapi`; `docs` then points to the docs' llms.txt
+        (example `missing_api_key_agent_links`).
+      headers:
+        WWW-Authenticate:
+          description: Always `Key`.
+          schema: { type: string }
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            missing_api_key:
+              summary: No API key sent
+              value:
+                message: "No API key found in request"
+                error: { code: "missing_api_key", message: "No API key found in request" }
+                actions:
+                  sign_up: "https://app.freecurrencyapi.com/register?utm_source=api_error&utm_campaign=missing_api_key"
+                  docs: "https://freecurrencyapi.com/docs/openapi.yaml"
+            invalid_api_key:
+              summary: Unknown API key
+              value:
+                message: "Unauthorized"
+                error: { code: "invalid_api_key", message: "Unauthorized" }
+                actions:
+                  sign_up: "https://app.freecurrencyapi.com/register?utm_source=api_error&utm_campaign=invalid_api_key"
+                  docs: "https://freecurrencyapi.com/docs/openapi.yaml"
+            missing_api_key_agent_links:
+              summary: No API key sent, with the links for AI coding agents
+              value:
+                message: "No API key found in request"
+                error: { code: "missing_api_key", message: "No API key found in request" }
+                actions:
+                  agent_setup: "https://freecurrencyapi.com/agents.md"
+                  sign_up: "https://app.freecurrencyapi.com/register?utm_source=api_error&utm_campaign=missing_api_key"
+                  pricing: "https://api.freecurrencyapi.com/v1/agent/plans"
+                  docs: "https://freecurrencyapi.com/docs/llms.txt"
+                  openapi: "https://freecurrencyapi.com/docs/openapi.yaml"
+    ValidationError:
+      description: One or more request parameters failed validation.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ValidationError' }
+          example:
+            message: "Validation error"
+            errors: { base_currency: ["The selected base currency is invalid."] }
+            info: "For more information, see documentation: https://freecurrencyapi.com/docs/status-codes#_422"
+    RateLimited:
+      description: >-
+        A limit is used up. `error.code` says which: `quota_exceeded` (the
+        month's requests; `quota.resets_at` says when they come back),
+        `grace_quota_exceeded` (the grace quota of an unpaid invoice:
+        `actions.complete_payment` pays it), `overage_quota_exceeded` (the
+        overage budget) or `rate_limit_exceeded` (the free plan's 10 requests
+        a minute). Quota errors carry `quota`. freecurrencyapi is free:
+        `actions.upgrade` leads to currencyapi, its paid sibling, which has
+        plans with more requests. `actions` can also carry `pricing` (the
+        plans as JSON) and `openapi`; `docs` then points to the docs' llms.txt
+        (the examples ending in `_agent_links`).
+      headers:
+        Retry-After:
+          description: >-
+            Seconds until the next full minute, with the requests-per-minute
+            `rate_limit_exceeded` of an API key. A used-up quota has none: it
+            lasts until `quota.resets_at`.
+          schema: { type: integer }
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            quota_exceeded:
+              summary: The month's requests are used up
+              value:
+                message: "You used all your monthly requests. Please upgrade your plan at https://app.freecurrencyapi.com/upgrade"
+                error: { code: "quota_exceeded", message: "You used all your monthly requests. Please upgrade your plan at https://app.freecurrencyapi.com/upgrade" }
+                quota: { limit: 1000, used: 1000, remaining: 0, resets_at: "2026-11-01T00:00:00+00:00" }
+                actions:
+                  upgrade: "https://app.freecurrencyapi.com/upgrade?utm_source=api_error&utm_campaign=quota_exceeded&team=7123456789012345678"
+                  docs: "https://freecurrencyapi.com/docs/openapi.yaml"
+            rate_limit_exceeded:
+              summary: The requests per minute are used up
+              value:
+                message: "API rate limit exceeded"
+                error: { code: "rate_limit_exceeded", message: "API rate limit exceeded" }
+                actions:
+                  upgrade: "https://app.freecurrencyapi.com/upgrade?utm_source=api_error&utm_campaign=rate_limit_exceeded&team=7123456789012345678"
+                  docs: "https://freecurrencyapi.com/docs/openapi.yaml"
+            quota_exceeded_agent_links:
+              summary: The month's requests are used up, with the links for AI coding agents
+              value:
+                message: "You used all your monthly requests. Please upgrade your plan at https://app.freecurrencyapi.com/upgrade"
+                error: { code: "quota_exceeded", message: "You used all your monthly requests. Please upgrade your plan at https://app.freecurrencyapi.com/upgrade" }
+                quota: { limit: 1000, used: 1000, remaining: 0, resets_at: "2026-11-01T00:00:00+00:00" }
+                actions:
+                  upgrade: "https://app.freecurrencyapi.com/upgrade?utm_source=api_error&utm_campaign=quota_exceeded&team=7123456789012345678"
+                  pricing: "https://api.freecurrencyapi.com/v1/agent/plans"
+                  docs: "https://freecurrencyapi.com/docs/llms.txt"
+                  openapi: "https://freecurrencyapi.com/docs/openapi.yaml"
+            rate_limit_exceeded_agent_links:
+              summary: The requests per minute are used up, with the links for AI coding agents
+              value:
+                message: "API rate limit exceeded"
+                error: { code: "rate_limit_exceeded", message: "API rate limit exceeded" }
+                actions:
+                  upgrade: "https://app.freecurrencyapi.com/upgrade?utm_source=api_error&utm_campaign=rate_limit_exceeded&team=7123456789012345678"
+                  pricing: "https://api.freecurrencyapi.com/v1/agent/plans"
+                  docs: "https://freecurrencyapi.com/docs/llms.txt"
+                  openapi: "https://freecurrencyapi.com/docs/openapi.yaml"
+  schemas:
+    RatesResponse:
+      type: object
+      description: Latest rates as a flat map of currency code to value.
+      properties:
+        data:
+          type: object
+          additionalProperties: { type: number }
+      required: [data]
+    CurrencyInfo:
+      type: object
+      properties:
+        symbol: { type: string, example: "€" }
+        name: { type: string, example: "Euro" }
+        symbol_native: { type: string, example: "€" }
+        decimal_digits: { type: integer, example: 2 }
+        rounding: { type: number, example: 0 }
+        code: { type: string, example: "EUR" }
+        name_plural: { type: string, example: "Euros" }
+    StatusResponse:
+      type: object
+      properties:
+        account_id: { type: integer, example: 313373133731337 }
+        account_id_str: { type: string, description: "The same id as `account_id`, as a string for JavaScript clients, whose numbers lose precision above 2^53.", example: "313373133731337" }
+        quotas:
+          type: object
+          properties:
+            month: { $ref: '#/components/schemas/QuotaBucket' }
+            grace: { $ref: '#/components/schemas/QuotaBucket' }
+          required: [month]
+        plan:
+          type: object
+          description: >-
+            The plan of the API key's account, so you can check that an upgrade
+            took effect.
+          properties:
+            name: { type: [string, "null"], example: "free" }
+            interval: { type: [string, "null"], example: "month" }
+            price_id: { type: [string, "null"] }
+            free: { type: [boolean, "null"], example: true }
+            custom:
+              type: boolean
+              description: A plan made for this account only; it has no `upgrade_url`.
+              example: false
+            status:
+              type: [string, "null"]
+              description: The status of the subscription, e.g. `active` or `past_due`.
+              example: "active"
+            renews_at: { type: [string, "null"], format: date-time, example: "2026-11-01T00:00:00+00:00" }
+            scheduled:
+              type: [object, "null"]
+              description: A plan change that starts later, e.g. a downgrade at the end of the period.
+              properties:
+                name: { type: [string, "null"] }
+                interval: { type: [string, "null"], example: "month" }
+                starts_at: { type: string, format: date-time }
+            upgrade_url:
+              type: [string, "null"]
+              format: uri
+              description: Opens the plans of this account. `null` for a custom plan.
+            plans_url:
+              type: string
+              format: uri
+              description: Every plan as JSON.
+              example: "https://api.freecurrencyapi.com/v1/agent/plans"
+      required: [quotas]
+    QuotaBucket:
+      type: object
+      properties:
+        total: { type: integer, example: 1000 }
+        used: { type: integer, example: 120 }
+        remaining: { type: integer, example: 880 }
+    Error:
+      type: object
+      properties:
+        message: { type: string }
+        info: { type: string }
+        error:
+          type: object
+          description: >-
+            Machine-readable error envelope, on 401, 403, 404 and 429
+            responses (gateway errors included).
+          properties:
+            code:
+              type: string
+              description: >-
+                Stable machine-readable error code, e.g. `missing_api_key`,
+                `invalid_api_key`, `key_not_allowed_for_product`,
+                `referrer_not_allowed`, `quota_exceeded`,
+                `grace_quota_exceeded`, `overage_quota_exceeded`,
+                `rate_limit_exceeded`, `not_found`, `forbidden`,
+                `plan_upgrade_required` (a plan does not include the endpoint or
+                parameter).
+              example: quota_exceeded
+            message:
+              type: string
+              description: The same text as the top-level `message`.
+          required: [code, message]
+        quota:
+          type: object
+          description: The quota of the API key's account. Present on quota errors only.
+          properties:
+            limit: { type: integer, example: 1000 }
+            used: { type: integer, example: 1000 }
+            remaining: { type: integer, example: 0 }
+            resets_at:
+              type: [string, 'null']
+              format: date-time
+              description: When the quota resets. Null when unknown.
+        actions:
+          type: object
+          description: >-
+            Next steps as absolute URLs, keyed by action. A key is only
+            present when it applies to this error and is available for this
+            product right now, so read the keys you know and ignore the
+            others. `sign_up`: create an account with a free API key.
+            `upgrade`: the plans of the API key's account (quota and plan
+            errors). `complete_payment`: pay the open invoice (grace quota).
+            `verify_email`: confirm the account's email address. `docs`: the
+            documentation (always present). `openapi`: this specification.
+            `pricing`: the plans as JSON. `agent_setup`: setup steps for AI
+            coding agents. `get_free_api_key`, `get_trial_key`, `get_api_key`:
+            endpoints that issue API keys to agents; `agent_setup` explains
+            them.
+            `enable_overage`: turn on overage for the account, so requests past
+            the monthly quota are served and billed per request up to a budget
+            (quota_exceeded of a paid plan that has overage, while it is off).
+          additionalProperties: { type: string, format: uri }
+      required: [message]
+    ValidationError:
+      type: object
+      properties:
+        message: { type: string, example: "Validation error" }
+        errors:
+          type: object
+          additionalProperties: { type: array, items: { type: string } }
+        info: { type: string }
+      required: [message, errors]

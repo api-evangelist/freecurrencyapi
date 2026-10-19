@@ -1,24 +1,19 @@
 {
   "provider": "freecurrencyapi",
   "sources": [
-    "_original/openapi.yml"
+    "_original/freecurrencyapi-openapi.yml"
   ],
   "outputs": [
-    "freecurrencyapi-currencies-api-openapi.yml",
-    "freecurrencyapi-exchange-rates-api-openapi.yml",
-    "freecurrencyapi-status-api-openapi.yml"
+    "freecurrencyapi-metadata-api-openapi.yml",
+    "freecurrencyapi-rates-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "freecurrencyapi-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+2 apis, 2 total)"
   ],
-  "skipped": [
-    "freecurrencyapi-currencies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "freecurrencyapi-exchange-rates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "freecurrencyapi-status-api-openapi.yml: previously refined output, superseded by openapi/_original/"
-  ]
+  "skipped": []
 }
