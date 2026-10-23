@@ -406,3 +406,9 @@ components:
       in: header
       name: apikey
       description: API key as the apikey request header (recommended).
+x-provenance:
+  method: harvested
+  publisher: Free Currency API
+  source: https://freecurrencyapi.com/docs/openapi.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
